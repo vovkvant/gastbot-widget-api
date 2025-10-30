@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.gastbot</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>gastbot-widget-api</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>Gastbot Widget API</name>
     <description>Gastbot Widget API</description>
