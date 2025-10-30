@@ -7,6 +7,15 @@ import com.gastbot.widget.model.LikeRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+/**
+ * Test how to start application on PROD
+ * Add domain check
+ * Add dislike
+ * Get integration details from admin app
+ * Provide internal api for admin panel with message count
+ * Add liquibase
+ * Create separate database
+ */
 @RestController
 @RequestMapping("/widget-api")
 @CrossOrigin(origins = ["*"])
