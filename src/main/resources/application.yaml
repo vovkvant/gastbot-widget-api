@@ -1,0 +1,8 @@
+server.port: 8090
+
+spring.datasource.url: jdbc:postgresql://localhost:5432/gastbot
+spring.datasource.username: spadmin
+spring.datasource.password: ENC(qTeYT+yXC61ZCQuesrv1oAq3iOGBy0Z32GW42GE+44lxqNIUlw6H/zWgK54rwEan)
+spring.datasource.driver-class-name: org.postgresql.Driver
+
+gastbot.openai.api-secret: ENC(A7Mx3+uzXEh9Tmxu5i56L5ZcSJU8j1b/5YemD7nubGPsHBM8RrxmiyV4Zs3viclQ7Ffrc/QVuoTGJWQ7pvbbawLMdIe7hnl6wWSPpPqc1G/1eKWCXuvKgRDBBk5d80FK3MF6UNV66LZ+OcP7FKtzzb82b2bMPYKZa23lpQGBQn8mxDI4OvRSCqYWvCdW2fhS89q4/OXxhqVIetihZMhjeOnoQtD0TIUOAGur3buN4dj1uh2MtlQumAumnju0OB4StalGawF7q2VjcraLNoqLzw==)
