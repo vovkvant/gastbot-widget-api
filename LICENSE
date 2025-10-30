@@ -1,0 +1,33 @@
+Gastbot – Proprietary License
+
+Copyright (c) 2025 Vladimir Voblikov (vovkvant)
+All rights reserved.
+
+This software forms part of the “Gastbot” system and is used exclusively
+within the Gastbot platform (http://gastbot.de) and its authorized subdomains.
+The software is proprietary and confidential.
+Unauthorized use of this software in any form is strictly prohibited.
+
+Unless you have an explicit written agreement with the copyright holder,
+you are not allowed to:
+• copy, reproduce, publish, or distribute the software
+• modify, translate, or create derivative works
+• use the software for commercial, non-commercial, or internal purposes
+• make the software available to any third parties
+• decompile, reverse-engineer, or disassemble this software
+
+Access to and use of this software require a valid license agreement.
+Any use outside of the agreed terms will result in immediate termination
+of granted rights and may lead to legal action.
+
+This License is governed by German law (UrhG and BGB).
+Any disputes shall be subject to the exclusive jurisdiction
+of the courts in Berlin, Germany.
+
+For licensing inquiries or permissions, contact:
+vovkvant@gmail.com
+
+This repository also includes the document "IP_CONTRIBUTION_POLICY.md",
+which defines authorship and rights retention for all code created by
+Vladimir Voblikov. Both documents together define the legal framework
+of the Gastbot platform.
