@@ -3,7 +3,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENV_FILE="$SCRIPT_DIR/setenv.sh"
-JAR_FILE="$SCRIPT_DIR/gastbot-widget-api-1.0-SNAPSHOT.jar"
+JAR_FILE="$SCRIPT_DIR/gastbot-widget-api-1.0.0-SNAPSHOT.jar"
 LOG_FILE="$SCRIPT_DIR/gastbot-widget-api.log"
 
 echo "Using env file: $ENV_FILE"
