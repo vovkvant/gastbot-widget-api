@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*
  * Provide internal api for admin panel with message count
  * Add liquibase
  * Create separate database
+ * Rate limiter
+ * Unit and integration tests
  */
 @RestController
 @RequestMapping("/widget-api")
@@ -54,8 +56,16 @@ class ChatbotWidgetController(
         @RequestHeader(name = "X-Api-Key") apiKey: String,
         @RequestBody likeRequest: LikeRequest
     ): ResponseEntity<Void> {
-        log.info("Like message: $likeRequest")
-        chatbotWidgetService.processLike(apiKey, likeRequest)
+        chatbotWidgetService.processLike(apiKey, likeRequest, true)
+        return ResponseEntity.ok().build()
+    }
+
+    @PostMapping("/message/dislike")
+    fun dislikeMessage(
+        @RequestHeader(name = "X-Api-Key") apiKey: String,
+        @RequestBody dislikeRequest: LikeRequest
+    ): ResponseEntity<Void> {
+        chatbotWidgetService.processLike(apiKey, dislikeRequest, false)
         return ResponseEntity.ok().build()
     }
 }

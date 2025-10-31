@@ -11,6 +11,8 @@ class ChatbotWidgetService(
     private val openAiService: OpenAiService
 ) {
 
+    val log = org.slf4j.LoggerFactory.getLogger(ChatbotWidgetService::class.java)
+
     // TODO  add caching for integration
     fun processMessage(
         apiKey: String,
@@ -64,10 +66,14 @@ class ChatbotWidgetService(
 
     }
 
-    fun processLike(apiKey: String, likeRequest: LikeRequest) {
+    fun processLike(apiKey: String, likeRequest: LikeRequest, isLike: Boolean) {
+        log.info("Like message: $likeRequest, isLike: $isLike")
         val integrationAndPromptList = integrationDao.getItAndPromptByApiKey(apiKey)
         if (integrationAndPromptList.isNotEmpty()) {
-            messageDao.likeMessage(likeRequest.messageId)
+            when (isLike) {
+                true -> messageDao.likeMessage(likeRequest.messageId)
+                else -> messageDao.dislikeMessage(likeRequest.messageId)
+            }
         } else {
             throw BusinessException("No such integration")
         }

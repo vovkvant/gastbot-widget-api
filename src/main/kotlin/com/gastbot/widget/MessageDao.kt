@@ -96,7 +96,19 @@ class MessageDao(
 
     fun likeMessage(messageId: Long) {
         val sql = """
-            UPDATE message_history SET like_counter = 1 WHERE id = :messageId and like_counter = 0
+            UPDATE message_history SET like_counter = 1, dislike_counter = 0 
+            WHERE id = :messageId and like_counter = 0
+        """.trimIndent()
+        val params = mapOf(
+            "messageId" to messageId,
+        )
+        jdbcTemplate.update(sql, params)
+    }
+
+    fun dislikeMessage(messageId: Long) {
+        val sql = """
+            UPDATE message_history SET dislike_counter = 1, like_counter = 0
+             WHERE id = :messageId and dislike_counter = 0
         """.trimIndent()
         val params = mapOf(
             "messageId" to messageId,
