@@ -34,7 +34,8 @@ data class IntegratedPrompt(
     val promptId: UUID,
     val domain: String,
     val prompt: String,
-    val firstMessage: String
+    val firstMessage: String,
+    val isOn: Boolean
 ) {
     companion object {
         fun mapRow(rs: ResultSet, rowNum: Int): IntegratedPrompt {
@@ -44,7 +45,8 @@ data class IntegratedPrompt(
                 promptId = UUID.fromString(rs.getString("prompt_id")),
                 domain = rs.getString("domain"),
                 prompt = rs.getString("prompt"),
-                firstMessage = rs.getString("first_message")
+                firstMessage = rs.getString("first_message"),
+                isOn = rs.getBoolean("is_on")
             )
         }
     }

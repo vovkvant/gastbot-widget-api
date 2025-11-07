@@ -86,3 +86,8 @@ data class LikeRequest(
 data class FirstMessageResponse(
     val firstMessage: String
 )
+
+data class InitialSettings(
+    val isOn: Boolean,
+    val firstMessage: String
+)

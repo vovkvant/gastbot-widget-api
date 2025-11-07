@@ -56,14 +56,17 @@ class ChatbotWidgetService(
         }
     }
 
-    fun getFirstMessage(apiKey: String): FirstMessageResponse {
+    fun getInitialSettings(apiKey: String): InitialSettings {
         val integrationAndPromptList = integrationDao.getItAndPromptByApiKey(apiKey)
         if (integrationAndPromptList.isNotEmpty()) {
-            return FirstMessageResponse(firstMessage = integrationAndPromptList.first().firstMessage)
+            val activeIntegration = integrationAndPromptList.first()
+            return InitialSettings(
+                isOn = activeIntegration.isOn,
+                firstMessage = activeIntegration.firstMessage
+            )
         } else {
             throw BusinessException("No such integration")
         }
-
     }
 
     fun processLike(apiKey: String, likeRequest: LikeRequest, isLike: Boolean) {

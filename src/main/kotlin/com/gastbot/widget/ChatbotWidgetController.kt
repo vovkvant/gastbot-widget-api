@@ -1,21 +1,17 @@
 package com.gastbot.widget
 
-import com.gastbot.widget.model.ChatMessageRequest
-import com.gastbot.widget.model.ChatMessageResponse
-import com.gastbot.widget.model.FirstMessageResponse
-import com.gastbot.widget.model.LikeRequest
+import com.gastbot.widget.model.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 /**
+ * Rate limiter
  * Test how to start application on PROD
  * Add domain check
- * Add dislike
  * Get integration details from admin app
  * Provide internal api for admin panel with message count
  * Add liquibase
  * Create separate database
- * Rate limiter
  * Unit and integration tests
  */
 @RestController
@@ -32,6 +28,15 @@ class ChatbotWidgetController(
         return ResponseEntity.ok("UP")
     }
 
+    @GetMapping("/settings")
+    fun initialSettings(
+        @RequestHeader(name = "X-Api-Key") apiKey: String
+    ): ResponseEntity<InitialSettings> {
+        log.info("Request settings")
+        val response = chatbotWidgetService.getInitialSettings(apiKey)
+        return ResponseEntity.ok(response)
+    }
+
     @PostMapping("/message")
     fun sendMessage(
         @RequestHeader(name = "X-Api-Key") apiKey: String,
@@ -39,15 +44,6 @@ class ChatbotWidgetController(
     ): ResponseEntity<ChatMessageResponse> {
         log.info("Widget request: $widgetChatMessage")
         val response = chatbotWidgetService.processMessage(apiKey, widgetChatMessage)
-        return ResponseEntity.ok(response)
-    }
-
-    @GetMapping("/message/first")
-    fun firstMessage(
-        @RequestHeader(name = "X-Api-Key") apiKey: String
-    ): ResponseEntity<FirstMessageResponse> {
-        log.info("First message")
-        val response = chatbotWidgetService.getFirstMessage(apiKey)
         return ResponseEntity.ok(response)
     }
 
