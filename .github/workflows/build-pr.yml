@@ -1,0 +1,42 @@
+name: Build PR gastbot-widget-api
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  JAVA_VERSION: "17"
+  WIDGET_API_MODULE_DIR: "gastbot-widget-api"
+  WIDGET_API_ARTIFACT_NAME: "gastbot-widget-api.jar"
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Temurin JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: maven
+
+      - name: Build ALL modules (tests included)
+        run: |
+          mvn -B -U -f pom.xml verify
+
+      - name: Pick admin jar
+        working-directory: ${{ env.WIDGET_API_MODULE_DIR }}
+        run: |
+          mkdir -p artifacts
+          # пробуем boot-jar, иначе любой jar из target
+          BOOT_JAR=$(ls target/*-SNAPSHOT.jar 2>/dev/null | head -n1 || true)
+          [ -z "$BOOT_JAR" ] && BOOT_JAR=$(ls target/*.jar 2>/dev/null | head -n1 || true)
+          if [ -z "$BOOT_JAR" ]; then
+            echo "No JAR found in $(pwd)/target"; exit 1
+          fi
+          cp "$BOOT_JAR" "artifacts/${{ env.WIDGET_API_ARTIFACT_NAME }}"
