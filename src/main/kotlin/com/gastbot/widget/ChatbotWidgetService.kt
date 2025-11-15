@@ -62,7 +62,9 @@ class ChatbotWidgetService(
             val activeIntegration = integrationAndPromptList.first()
             return InitialSettings(
                 isOn = activeIntegration.isOn,
-                firstMessage = activeIntegration.firstMessage
+                firstMessage = activeIntegration.firstMessage,
+                textColor = activeIntegration.textColor,
+                backgroundColor = activeIntegration.bgColor
             )
         } else {
             throw BusinessException("No such integration")

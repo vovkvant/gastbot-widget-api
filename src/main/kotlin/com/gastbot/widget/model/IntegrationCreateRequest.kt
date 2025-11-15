@@ -35,7 +35,9 @@ data class IntegratedPrompt(
     val domain: String,
     val prompt: String,
     val firstMessage: String,
-    val isOn: Boolean
+    val isOn: Boolean,
+    val bgColor: String,
+    val textColor: String
 ) {
     companion object {
         fun mapRow(rs: ResultSet, rowNum: Int): IntegratedPrompt {
@@ -46,7 +48,9 @@ data class IntegratedPrompt(
                 domain = rs.getString("domain"),
                 prompt = rs.getString("prompt"),
                 firstMessage = rs.getString("first_message"),
-                isOn = rs.getBoolean("is_on")
+                isOn = rs.getBoolean("is_on"),
+                bgColor = rs.getString("bg_color"),
+                textColor = rs.getString("text_color")
             )
         }
     }

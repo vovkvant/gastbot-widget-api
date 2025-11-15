@@ -15,7 +15,8 @@ class IntegrationDaoImpl(
 
     override fun getItAndPromptByApiKey(apiKeyHash: String): List<IntegratedPrompt> {
         val sql = """
-            SELECT ci.id, ci.user_id, ci.domain, ci.prompt_id, ci.is_on, up.prompt, up.first_message
+            SELECT ci.id, ci.user_id, ci.domain, ci.prompt_id, ci.is_on, up.prompt, up.first_message,
+                   ci.text_color, ci.bg_color
             FROM chatbot_integration ci 
             JOIN user_prompts up ON ci.prompt_id = up.id AND ci.user_id = up.user_id
             WHERE ci.api_key_hash = :apiKeyHash AND revoked = false
