@@ -7,7 +7,6 @@ on:
 
 env:
   JAVA_VERSION: "17"
-  WIDGET_API_MODULE_DIR: "gastbot-widget-api"
   WIDGET_API_ARTIFACT_NAME: "gastbot-widget-api.jar"
 
 jobs:
@@ -29,8 +28,7 @@ jobs:
         run: |
           mvn -B -U -f pom.xml verify
 
-      - name: Pick admin jar
-        working-directory: ${{ env.WIDGET_API_MODULE_DIR }}
+      - name: Pick widget api jar
         run: |
           mkdir -p artifacts
           # пробуем boot-jar, иначе любой jar из target
