@@ -1,0 +1,62 @@
+name: Build & Upload gastbot-widget-api
+
+on:
+  workflow_dispatch:
+
+env:
+  JAVA_VERSION: '17'
+  REMOTE_DIR: '/home/repository/gastbot-widget-api'
+  REMOTE_HOST: 116.203.126.111
+  REMOTE_USER: devops
+  LATEST_FILE_NAME: 'gastbot-widget-api.LATEST'
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: maven
+
+      - name: Build all modules (with tests)
+        run: mvn -B -U -f pom.xml verify
+
+      - name: Compute artifact name from run number
+        id: meta
+        run: |
+          echo "version=${GITHUB_RUN_NUMBER}" >> $GITHUB_OUTPUT
+          echo "out=gastbot-widget-api-${GITHUB_RUN_NUMBER}.jar" >> $GITHUB_OUTPUT
+
+      - name: Collect widget api jar and rename
+        run: |
+          mkdir -p artifacts
+          JAR=$(ls target/*-SNAPSHOT.jar 2>/dev/null | head -n1 || true)
+          [ -z "$JAR" ] && JAR=$(ls target/*.jar 2>/dev/null | head -n1 || true)
+          [ -z "$JAR" ] && { echo "No JAR found in $(pwd)/target"; exit 1; }
+          cp "$JAR" "artifacts/${{ steps.meta.outputs.out }}"
+
+      - name: Upload widget api jar to server (SCP)
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ env.REMOTE_HOST }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          source: "artifacts/${{ steps.meta.outputs.out }}"
+          target: "${{ env.REMOTE_DIR }}/"
+          overwrite: true
+          #strip_components: 2
+
+      - name: Write LATEST file on server (points to run number)
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ env.REMOTE_HOST }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            echo "${{ steps.meta.outputs.version }}" > ${{ env.REMOTE_DIR }}/${{ env.LATEST_FILE_NAME }}
+            ls -l ${{ env.REMOTE_DIR }}/${{ env.LATEST_FILE_NAME }}
