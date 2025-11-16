@@ -23,7 +23,7 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           cache: maven
 
-      - name: Build all modules (with tests)
+      - name: Build project (with tests)
         run: mvn -B -U -f pom.xml verify
 
       - name: Compute artifact name from run number
@@ -32,26 +32,26 @@ jobs:
           echo "version=${GITHUB_RUN_NUMBER}" >> $GITHUB_OUTPUT
           echo "out=gastbot-widget-api-${GITHUB_RUN_NUMBER}.jar" >> $GITHUB_OUTPUT
 
-      - name: Collect widget api jar and rename
+      - name: Collect widget api jar
         run: |
           mkdir -p artifacts
           JAR=$(ls target/*-SNAPSHOT.jar 2>/dev/null | head -n1 || true)
           [ -z "$JAR" ] && JAR=$(ls target/*.jar 2>/dev/null | head -n1 || true)
           [ -z "$JAR" ] && { echo "No JAR found in $(pwd)/target"; exit 1; }
-          cp "$JAR" "artifacts/${{ steps.meta.outputs.out }}"
 
-      - name: Upload widget api jar to server (SCP)
+          cp "$JAR" "${{ steps.meta.outputs.out }}"
+
+      - name: Upload JAR to server (SCP, no subfolders)
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ env.REMOTE_HOST }}
           username: ${{ env.REMOTE_USER }}
           key: ${{ secrets.PROD_SSH_KEY }}
-          source: "artifacts/${{ steps.meta.outputs.out }}"
+          source: "${{ steps.meta.outputs.out }}"
           target: "${{ env.REMOTE_DIR }}/"
           overwrite: true
-          #strip_components: 1
 
-      - name: Write LATEST file on server (points to run number)
+      - name: Write LATEST version file on server
         uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ env.REMOTE_HOST }}
