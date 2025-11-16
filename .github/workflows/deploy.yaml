@@ -1,4 +1,4 @@
-name: Deploy gastbot-admin
+name: Deploy gastbot-widget-api
 
 on:
   workflow_dispatch:
@@ -26,4 +26,4 @@ jobs:
           port: 22
           script: |
             set -euo pipefail
-            sudo -n /home/gastbot/back/gastbot-widget-api/deploy.sh gastbot-widget-api
+            /home/gastbot/back/gastbot-widget-api/deploy.sh gastbot-widget-api
