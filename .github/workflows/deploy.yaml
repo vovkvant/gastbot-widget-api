@@ -1,0 +1,29 @@
+name: Deploy gastbot-admin
+
+on:
+  workflow_dispatch:
+
+env:
+  REMOTE_HOST: 116.203.126.111
+  REMOTE_USER: devops
+
+concurrency:
+  group: prod-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Run deploy script on server
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ env.REMOTE_HOST }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: 22
+          script: |
+            set -euo pipefail
+            sudo -n /home/gastbot/back/gastbot-widget-api/deploy.sh gastbot-widget-api
