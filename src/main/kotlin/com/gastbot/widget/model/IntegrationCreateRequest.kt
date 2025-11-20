@@ -37,7 +37,9 @@ data class IntegratedPrompt(
     val firstMessage: String,
     val isOn: Boolean,
     val bgColor: String,
-    val textColor: String
+    val textColor: String,
+    val bubbleColor: String,
+    val bubbleTextColor: String
 ) {
     companion object {
         fun mapRow(rs: ResultSet, rowNum: Int): IntegratedPrompt {
@@ -49,8 +51,10 @@ data class IntegratedPrompt(
                 prompt = rs.getString("prompt"),
                 firstMessage = rs.getString("first_message"),
                 isOn = rs.getBoolean("is_on"),
-                bgColor = rs.getString("bg_color"),
-                textColor = rs.getString("text_color")
+                bgColor = "#" + rs.getString("bg_color"),
+                textColor = "#" + rs.getString("text_color"),
+                bubbleColor = "#" + rs.getString("bubble_color"),
+                bubbleTextColor = "#" + rs.getString("bubble_text_color")
             )
         }
     }

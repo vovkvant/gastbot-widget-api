@@ -3,6 +3,7 @@ package com.gastbot.widget
 import com.gastbot.widget.model.*
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import kotlin.String
 
 @Service
 class ChatbotWidgetService(
@@ -64,7 +65,9 @@ class ChatbotWidgetService(
                 isOn = activeIntegration.isOn,
                 firstMessage = activeIntegration.firstMessage,
                 textColor = activeIntegration.textColor,
-                backgroundColor = activeIntegration.bgColor
+                backgroundColor = activeIntegration.bgColor,
+                bubbleColor = activeIntegration.bubbleColor,
+                bubbleTextColor = activeIntegration.bubbleTextColor
             )
         } else {
             throw BusinessException("No such integration")

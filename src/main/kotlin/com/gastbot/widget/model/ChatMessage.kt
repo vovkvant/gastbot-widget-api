@@ -90,6 +90,8 @@ data class FirstMessageResponse(
 data class InitialSettings(
     val isOn: Boolean,
     val firstMessage: String,
+    val backgroundColor: String,
     val textColor: String,
-    val backgroundColor: String
+    val bubbleColor: String,
+    val bubbleTextColor: String
 )
